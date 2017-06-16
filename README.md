@@ -53,7 +53,7 @@ $ git clone https://github.com/TpWILovePanda/frontend-starter-kit.git
 $ cd frontend-starter-kit
 ```
 
-7. 安裝 Bower、Gulp 工具
+7. 安裝 Bower、Gulp 工具 ( 已經安裝過 Bower、Gulp 可以跳過步驟七 )
 ```
 $ npm install -g gulp bower
 ```
