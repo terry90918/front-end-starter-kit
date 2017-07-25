@@ -1,20 +1,24 @@
 {
-	"name": "frontend-starter-kit",
-	"description": "",
-	"main": "index.js",
-	"authors": [
-		"LovePanda"
-	],
-	"license": "MIT",
-	"homepage": "https://github.com/TpWILovePanda/frontend-starter-kit",
-	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
-	],
-	"dependencies": {
-		"bootstrap": "^3.3.7"
-	}
+  "name": "frontend-starter-kit",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "LovePanda"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/TpWILovePanda/frontend-starter-kit",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.6",
+    "vue": "^2.4.2"
+  },
+  "devDependencies": {
+    "holderjs": "^2.9.4"
+  }
 }

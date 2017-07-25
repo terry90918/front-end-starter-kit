@@ -1,22 +1,18 @@
 # 前端入門套件 (Frontend Starter Kit)
 
-Just a light-weight front-end development boilerplate. (NodeJS/NPM/ES6/Bower/Gulp/Sass/Babel/Babelify/Browserify)
+Lightweight front-end development boilerplate. (NodeJS/NPM/ES6/Gulp/Bower/Scss/GitHub)
 
-## 主要會使用到的有以下工具
+## 主要工具
 
 1. [NodeJS/NPM](https://nodejs.org/)
 
-2. [Bower](https://bower.io/)
+2. [Gulp](http://gulpjs.com/)
 
-3. [Gulp](http://gulpjs.com/)
+3. [Bower](https://bower.io/)
 
-4. [Sass](http://sass-lang.com/)
+4. [Scss](http://sass-lang.com/)
 
-5. [Browserify](http://browserify.org/)
-
-6. [Babel/Babelify](https://babeljs.io/)
-
-7. [Git](https://git-scm.com/)
+5. [GitHub](https://github.com/)
 
 ## 方法步驟 (Usage)
 
@@ -83,8 +79,9 @@ $ gulp
 ## 參考資源 (References)
 * [一看就懂的前端開發環境建置入門教學](http://blog.kdchang.cc/2016/11/05/how-to-establish-modern-front-end-development-environment-tutorial/)
 
-## 關於原文作者（Author）
-* [KD Chang](http://blog.kdchang.cc) 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校，目前專注在 Mobile 和 IoT 應用開發。A Starter & Maker. JavaScript, Python & Arduino/Android lover.:)
+## 關於作者（Author）
+* [@TpWILovePanda](https://tpwilovepanda.github.io/)
 
 ## 版權許可（License）
-* [MIT](https://opensource.org/licenses/MIT)
+* ![創用 CC 授權條款](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
+* 本著作係採用[創用 CC 姓名標示-相同方式分享 4.0 國際 授權條款](http://creativecommons.org/licenses/by-sa/4.0/)授權.

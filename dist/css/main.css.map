@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.scss"],"names":[],"mappings":"AAGA,GACC,MAAA,QAEC,YAAA,OAAA","file":"main.css","sourcesContent":["$h1-skyblue: skyblue;\n$font-style-1: Helvetica, Arial, sans-serif;\n\nh1 {\n\tcolor: $h1-skyblue;\n\tfont: {\n\t\tfamily: Roboto, sans-serif;\n\t}\n}"]}
