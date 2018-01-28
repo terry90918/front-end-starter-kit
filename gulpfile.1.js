@@ -17,7 +17,7 @@ const concat = require('gulp-concat'); // 6-3. 合併串接程式碼
 const uglify = require('gulp-uglify'); // 10-2. JavaScript 壓縮工具
 
 // 圖片
-const  imagemin  =  require('gulp-imagemin'); // 圖片壓縮 Minify PNG, JPEG, GIF and SVG images
+const  imagemin  =  require('gulp-imagemin'); // 圖片壓縮
 
 // 其它
 const plumber = require('gulp-plumber'); // 3. 讓 Gulp 在運行的過程中遇錯不會中斷
@@ -27,8 +27,6 @@ const order = require('gulp-order'); // 8. 使用 Bower 工具時，可以透過
 const browserSync = require('browser-sync').create(); // 9. Web Server
 const minimist = require('minimist'); // 11-1. 將指令碼匯入 gulp 流程
 const gulpif = require('gulp-if'); // 11-2. 將 gulp 加入判斷式
-const clean = require('gulp-clean'); // 12-1. 刪除文件和文件夾
-const gulpSequence = require('gulp-sequence'); // 12-2. 依次運行一系列的 gulp task 任務
 
 // const rename = require('gulp-rename'); // 重新命名檔案，依情況調整
 
@@ -69,14 +67,6 @@ const imgPaths = {
   dest: `./${path.plc}/img`
 };
 
-// 刪除文件和文件夾
-gulp.task('clean', function () {
-  return gulp.src(['./.tmp', './public'], {
-      read: false
-    })
-    .pipe(clean());
-});
-
 // 複製 HTML
 gulp.task('copyHTML', () => {
   return gulp.src('./source/**/*.html')
@@ -87,12 +77,9 @@ gulp.task('copyHTML', () => {
 gulp.task('pug', () => {
   return gulp.src(pugPaths.src)
     .pipe(plumber()) // 遇錯不會中斷
-    .pipe(gulpif(options.env === 'production', pug({
+    .pipe(pug({
       pretty: false // true: 不壓縮, false: 壓縮
-    })))
-    .pipe(gulpif(options.env !== 'production', pug({
-      pretty: true // true: 不壓縮, false: 壓縮
-    })))
+    }))
     .pipe(gulp.dest(pugPaths.dest)) // 匯出位置
     .pipe(browserSync.stream()); // 重新載入
 });
@@ -108,10 +95,7 @@ gulp.task('sass', () => {
   return gulp.src(scssPaths.src)
     .pipe(plumber()) // 遇錯不會中斷
     .pipe(sourcemaps.init()) // 標示壓縮、合併程式碼的原始位置，初始化
-    .pipe(scss({
-      outputStyle: 'nested',
-      includePaths: ['./bower_components/bootstrap/scss']
-    }).on('error',  scss.logError)) // 編譯完成 CSS
+    .pipe(scss().on('error',  scss.logError)) // 編譯完成 CSS
     .pipe(postCss(plugins)) // 強大的 CSS 後處理器
     // if 判斷式，當傳入參數是 --env production，才會進行壓縮
     .pipe(gulpif(options.env === 'production', cleanCss())) // CSS 壓縮工具
@@ -136,11 +120,11 @@ gulp.task('babel', () => {
     // }))
     // 「全部合併方法」
     .pipe(concat('all.js'))
-    .pipe(gulpif(options.env === 'production', uglify({ // 醜化
+    .pipe(uglify({ // 醜化
       compress: {
         drop_console: false // true: 移除 console, false: 顯示 console
       }
-    })))
+    }))
     .pipe(sourcemaps.write('.')) // 標示壓縮、合併程式碼的原始位置
     .pipe(gulp.dest(jsPaths.dest))
     .pipe(browserSync.stream());
@@ -169,7 +153,7 @@ gulp.task('vendorJS', ['bower'], () => {
       'bootstrap.js'
     ]))
     .pipe(concat('vendors.js')) // 「全部合併方法」
-    .pipe(gulpif(options.env === 'production', uglify())) // 醜化
+    .pipe(uglify()) // 醜化
     .pipe(gulp.dest(jsPaths.dest));
 });
 
@@ -194,17 +178,11 @@ gulp.task('browser-sync', () => {
 // 監聽檔案更新
 gulp.task('watch', () => {
   gulp.watch(pugPaths.src, ['pug']);
-  gulp.watch(scssPaths.src, ['sass'], ['./source/stylesheets/**/*.sass', './source/stylesheets/**/*.scss']);
+  gulp.watch(scssPaths.src, ['sass']);
   gulp.watch(jsPaths.src, ['babel']);
 });
 
-gulp.task('sequence', gulpSequence('clean', 'pug', 'sass', 'babel', 'vendorJS', 'img'));
-
 // 預設模式
-gulp.task('default', ['pug', 'sass', 'babel', 'vendorJS', 'img', 'browser-sync', 'watch']);
-
-// 建構模式 gulp bulid --env production
-gulp.task('build', ['sequence']);
-
-// 圖片壓縮
-gulp.task('imgMin', ['img']);
+gulp.task('default', ['pug', 'sass', 'babel', 'img', 'vendorJS', 'browser-sync', 'watch']);
+// 建構模式
+gulp.task('build', ['pug', 'sass', 'babel', 'img']);

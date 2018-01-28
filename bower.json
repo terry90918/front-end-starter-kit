@@ -1,9 +1,9 @@
 {
   "name": "frontend-starter-kit",
-  "description": "",
+  "description": "前端函式庫、框架、套件管理工具。",
   "main": "index.js",
   "authors": [
-    "LovePanda"
+    "Tien-Yi"
   ],
   "license": "MIT",
   "homepage": "https://github.com/TpWILovePanda/frontend-starter-kit",
@@ -15,10 +15,8 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "v4.0.0-alpha.6",
-    "vue": "^2.4.2"
-  },
-  "devDependencies": {
-    "holderjs": "^2.9.4"
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "vue": "latest"
   }
 }
