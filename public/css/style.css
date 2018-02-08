@@ -1,7 +1,7 @@
-body {
+.text-red {
   color: red; }
 
-.card {
+.card-rotate {
   -webkit-transform: rotate(-25deg);
       -ms-transform: rotate(-25deg);
           transform: rotate(-25deg);

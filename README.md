@@ -175,6 +175,98 @@ JavaScript 壓縮工具。[連結](https://www.npmjs.com/package/gulp-uglify)
 
 依次運行一系列的 gulp task 任務。
 
+### gulp-imagemin
+
+圖片壓縮 Minify PNG, JPEG, GIF 和 SVG images。[連結](https://www.npmjs.com/package/gulp-imagemin)
+
+## 循序安裝流程
+
+要先引入 gulp 前端自動化 `const gulp = require('gulp');`。
+
+1. HTML 樣板語言
+    * `const pug = require('gulp-pug');`
+1. 強大的 CSS 預處理器
+    * `const scss = require('gulp-sass');`
+1. 讓 Gulp 在運行的過程中遇錯不會中斷
+    * `const plumber = require('gulp-plumber');`
+1. CSS
+    1. 強大的 CSS 後處理器
+        * `const postCss = require('gulp-postcss');`
+    1. 自動為 CSS 補上前綴詞
+        * `const autoprefixer = require('autoprefixer');`
+1. 簡化 gulp 載入流程
+    * `const $ = require('gulp-load-plugins');`
+1. JavaScript ES6 編譯工具
+    * `const babel = require('gulp-babel');`
+1. 標示壓縮、合併程式碼的原始位置
+    * `const sourcemaps = require('gulp-sourcemaps');`
+1. 合併串接程式碼
+    * `const concat = require('gulp-concat');`
+1. Bower 工具
+    * `const mainBowerFiles = require('main-bower-files');`
+1. 使用 Bower 工具時，可以透過陣列排列自己所需要的順序
+    * `const order = require('gulp-order');`
+1. Web Server
+    * `const browserSync = require('browser-sync').create();`
+1. 壓縮工具
+    1. CSS 壓縮工具，不推薦使用，作者不再維護
+        * `const minifyCss = require('gulp-minify-css');`
+    1. CSS 壓縮工具，推薦使用
+        * `const cleanCss = require('gulp-clean-css');`
+    1. JavaScript 壓縮工具
+        * `const uglify = require('gulp-uglify');`
+1. 將指令碼匯入 gulp 流程
+    * `const minimist = require('minimist');`
+1. 將 gulp 加入判斷式
+    * `const gulpif = require('gulp-if');`
+1. 刪除文件和文件夾
+    * `const clean = require('gulp-clean');`
+1. 依次運行一系列的 gulp task 任務
+    * `const gulpSequence = require('gulp-sequence');`
+1. 圖片壓縮 Minify PNG, JPEG, GIF and SVG images
+    * `const  imagemin  =  require('gulp-imagemin');`
+1. 重新命名檔案，依情況調整引入
+    * `const rename = require('gulp-rename');`
+
+## gulp 載入分類
+
+未使用**簡化 gulp 載入流程**（`gulp-load-plugins`）引入分類，詳細可參考 [`gulpfile2.js`](gulpfile2.js)。
+
+```js
+const gulp = require('gulp'); // 前端自動化
+
+// HTML
+const pug = require('gulp-pug');
+
+// CSS
+const scss = require('gulp-sass');
+const postCss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const cleanCss = require('gulp-clean-css');
+
+// JavaScript
+const babel = require('gulp-babel');
+const sourcemaps = require('gulp-sourcemaps');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+
+// 圖片
+const imagemin = require('gulp-imagemin');
+
+// 其它
+const plumber = require('gulp-plumber');
+const $ = require('gulp-load-plugins');
+const mainBowerFiles = require('main-bower-files');
+const order = require('gulp-order');
+const browserSync = require('browser-sync').create();
+const minimist = require('minimist');
+const gulpif = require('gulp-if');
+const clean = require('gulp-clean');
+const gulpSequence = require('gulp-sequence');
+
+// const rename = require('gulp-rename'); // 重新命名檔案，依情況調整
+```
+
 ## 參考資源 (References)
 
 * [JavaScript程式設計新手村 - 一看就懂的前端開發環境建置入門教學](http://blog.kdchang.cc/2016/11/05/how-to-establish-modern-front-end-development-environment-tutorial/)
@@ -182,7 +274,7 @@ JavaScript 壓縮工具。[連結](https://www.npmjs.com/package/gulp-uglify)
 
 ## 關於作者（Author）
 
-* [@Tien-Yi, Chen](https://tpwilovepanda.github.io/)
+* [Tien-Yi, Chen](https://tpwilovepanda.github.io/)
 
 ## 版權許可（License）
 

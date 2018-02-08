@@ -11,5 +11,5 @@ var newFn2 = function newFn2() {
     console.log('b');
 };
 
-newFn();
+newFn2();
 //# sourceMappingURL=all.js.map

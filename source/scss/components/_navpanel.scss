@@ -22,13 +22,13 @@
 
 //== Nav Panel
 // 樣式變數可先拉到元件頁面的上方
-$zindex-navpanel:          1010 !default;
+$zindex-navpanel: 1010 !default;
 
 $navpanel-width: 240px;
 $navpanel-hide-text-width: 48px;
 $navpanel-hide-text-padding: 35px;
 $navpanel-padding: 15px;
-$navbar-height:   56px;
+$navbar-height: 56px;
 
 $navbar-light-hover-bg: rgba($black,.1);
 $navbar-dark-bg: $gray-800;
