@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const autoprefixer = require('autoprefixer');
 const $ = require('gulp-load-plugins')();
-const mainBowerFiles = require('main-bower-files');
+// const mainBowerFiles = require('main-bower-files');
 const browserSync = require('browser-sync').create();
 const minimist = require('minimist');
 
@@ -23,12 +23,12 @@ const path = {
 };
 
 const pugPaths = {
-    src: `./${path.src}/**/*.pug`,
+    src: `./${path.src}/**/!(_)*.pug`,
     dest: `./${path.plc}/`
 };
 
 const scssPaths = {
-    src: `./${path.src}/scss/**/*.scss`,
+    src: [`./${path.src}/scss/**/*.scss`, `./${path.src}/scss/**/*.sass`],
     dest: `./${path.plc}/css`
 };
 
@@ -45,8 +45,8 @@ const imgPaths = {
 // 刪除文件和文件夾
 gulp.task('clean', function () {
     return gulp.src(['./.tmp', './public'], {
-            read: false
-        })
+        read: false
+    })
         .pipe($.clean());
 });
 
@@ -60,11 +60,23 @@ gulp.task('copyHTML', () => {
 gulp.task('pug', () => {
     return gulp.src(pugPaths.src)
         .pipe($.plumber()) // 遇錯不會中斷
-        .pipe($.pug($.if(options.env === 'production', {
-            pretty: false // false: 壓縮
-        }, {
-            pretty: true // true: 不壓縮
-        })))
+        .pipe($.data(() => {
+            const khData = require('./source/data/data.json');
+            const menu = require('./source/data/menu.json');
+            const source = {
+                'khData': khData,
+                'menu': menu
+            };
+            // console.log('pug', source);
+            return source;
+        }))
+        .pipe($.pug(
+            $.if(options.env === 'prod', {
+                pretty: false // false: 壓縮
+            }, {
+                pretty: true // true: 不壓縮
+            }
+        )))
         .pipe(gulp.dest(pugPaths.dest)) // 匯出位置
         .pipe(browserSync.stream()); // 重新載入
 });
@@ -82,12 +94,13 @@ gulp.task('sass', () => {
         .pipe($.sourcemaps.init()) // 標示壓縮、合併程式碼的原始位置，初始化
         .pipe($.sass({
             outputStyle: 'nested',
-            includePaths: ['./bower_components/bootstrap/scss']
-        }).on('error',  $.sass.logError)) // 編譯完成 CSS
+            // includePaths: ['./bower_components/bootstrap/scss'] // bower 方法
+            includePaths: ['./node_modules/bootstrap/scss'] // npm 方法
+        }).on('error', $.sass.logError)) // SCSS 編譯成 CSS
         .pipe($.postcss(plugins)) // 強大的 CSS 後處理器
-        // if 判斷式，當傳入參數是 --env production，才會進行壓縮
-        .pipe($.if(options.env === 'production', $.cleanCss())) // CSS 壓縮工具
-        .pipe($.concat('style.css'))
+        // if 判斷式，當傳入參數是 --env prod，才會進行壓縮
+        .pipe($.if(options.env === 'prod', $.cleanCss())) // CSS 壓縮工具
+        .pipe($.concat('style.css')) // 全部合併成 style.css
         .pipe($.sourcemaps.write('.')) // 標示壓縮、合併程式碼的原始位置
         .pipe(gulp.dest(scssPaths.dest))
         .pipe(browserSync.stream());
@@ -108,7 +121,7 @@ gulp.task('babel', () => {
         // }))
         // 「全部合併方法」
         .pipe($.concat('all.js'))
-        .pipe($.if(options.env === 'production', $.uglify({ // 醜化
+        .pipe($.if(options.env === 'prod', $.uglify({ // 醜化
             compress: {
                 drop_console: false // true: 移除 console, false: 顯示 console
             }
@@ -120,45 +133,40 @@ gulp.task('babel', () => {
 
 // Bower 管理
 gulp.task('bower', () => {
-    return gulp.src(mainBowerFiles({
-            "overrides": {
-                "bootstrap": { // 套件名稱
-                    "main": "dist/js/bootstrap.js" // 取用的資料夾路徑
-                },
-                "vue": {
-                    "main": "dist/vue.js"
-                }
-            }
-        }))
+    return gulp
+        .src([
+            './node_modules/jquery/dist/jquery.min.js',
+            './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+            $.if(options.env === 'prod', './node_modules/vue/dist/vue.min.js', './node_modules/vue/dist/vue.js')
+        ])
         .pipe(gulp.dest('./.tmp/vendors'));
 });
 
 // Gulp 與 Bower 程式碼串接
 gulp.task('vendorJS', ['bower'], () => {
-    return gulp.src('./.tmp/vendors/**/**.js')
+    return gulp
+        .src('./.tmp/vendors/**/**.js')
         .pipe($.order([
-            'jquery.js',
-            'bootstrap.js'
+            'jquery.min.js',
+            'bootstrap.bundle.min.js'
         ]))
         .pipe($.concat('vendors.js')) // 「全部合併方法」
-        .pipe($.if(options.env === 'production', $.uglify())) // 醜化
+        .pipe($.if(options.env === 'prod', $.uglify())) // 醜化
         .pipe(gulp.dest(jsPaths.dest));
 });
 
 // 複製 img 任務，完成後送到 public/img
-gulp.task('image-min', () => {
+gulp.task('image', () => {
     return gulp.src(imgPaths.src)
         .pipe($.plumber()) // 遇錯不會中斷
-        .pipe($.if(options.env === 'production', $.imagemin())) // 非建構專案模式不壓縮
+        .pipe($.if(options.env === 'prod', $.imagemin())) // 非建構模式時，不壓縮圖檔
         .pipe(gulp.dest(imgPaths.dest));
 });
 
 // Static server
 gulp.task('browser-sync', () => {
     browserSync.init({
-        server: {
-            baseDir: "./public"
-        },
+        server: { baseDir: "./public" },
         reloadDebounce: 2000 // 重新整理的間隔必須超過 2 秒，依據需求調整使用
     });
 });
@@ -166,14 +174,20 @@ gulp.task('browser-sync', () => {
 // 監聽檔案更新
 gulp.task('watch', () => {
     gulp.watch(pugPaths.src, ['pug']);
-    gulp.watch(scssPaths.src, ['sass'], ['./source/stylesheets/**/*.sass', './source/stylesheets/**/*.scss']);
+    gulp.watch(scssPaths.src, ['sass']);
     gulp.watch(jsPaths.src, ['babel']);
 });
 
-gulp.task('sequence', $.sequence('clean', 'pug', 'sass', 'babel', 'vendorJS', 'image-min'));
+// 讓 `public` 檔案，可以快速發佈內容到 Github Pages
+gulp.task('deploy', () => {
+    return gulp.src('./public/**/*')
+        .pipe($.ghPages());
+});
 
-// 預設模式
-gulp.task('default', ['pug', 'sass', 'babel', 'vendorJS', 'image-min', 'browser-sync', 'watch']);
+gulp.task('sequence', $.sequence('clean', 'pug', 'sass', 'babel', 'vendorJS', 'image'));
 
-// 建構模式，壓縮程式碼指令 gulp bulid --env production
+// 預設模式、開發模式，不會壓縮圖片
+gulp.task('default', ['pug', 'sass', 'babel', 'vendorJS', 'image', 'browser-sync', 'watch']);
+
+// 建構模式，壓縮程式碼指令 gulp bulid --env prod
 gulp.task('build', ['sequence']);

@@ -1,0 +1,24 @@
+extend _layout.pug
+
+mixin card(Name, Picture1, Description)
+    .card
+        img.card-img-top(src=Picture1, alt=Name)
+        .card-body
+            h5.card-title Mixin #{Name}
+            p.card-text
+                | Mixin #{Description}
+
+block navbar
+    - var path = 'list.html'
+    include partials/navbar.pug
+
+block content
+    .card-columns
+        each item in khData.result.records
+            +card(item.Name, item.Picture1, item.Description)
+            //- .card
+            //-     img.card-img-top(src=item.Picture1, alt=item.Name)
+            //-     .card-body
+            //-         h5.card-title #{item.Name}
+            //-         p.card-text
+            //-             | #{item.Description}
