@@ -7,6 +7,10 @@
         {
             "name": "文件列表",
             "url": "list.html"
+        },
+        {
+            "name": "Vue 列表",
+            "url": "list-vue.html"
         }
     ]
 }

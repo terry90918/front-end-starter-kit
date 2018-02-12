@@ -1,0 +1,17 @@
+extend _layout.pug
+
+block navbar
+    - var path = 'list-vue.html'
+    include partials/navbar.pug
+
+block content
+    #app
+        ul
+            li(v-for="product in products")
+                input(type="number" v-model.number="product.quantity") 
+                |  {{ product.name }}
+                span(v-if="product.quantity === 0") - OUT OF STOCK
+                button(v-on:click="product.quantity += 1") Add
+        h2 Total Inventory: {{ totalProducts }}
+    script(src="js/vendors.js")
+    script(src='js/all.js')
