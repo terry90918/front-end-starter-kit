@@ -111,7 +111,7 @@ gulp.task('babel', () => {
     return gulp.src(jsPaths.src)
         .pipe($.sourcemaps.init()) // 標示壓縮、合併程式碼的原始位置，初始化
         .pipe($.babel({ // 轉譯
-            presets: ['es2015']
+            presets: ['env']
         }))
         // 「個別重新命名」與「全部合併」兩種方法，選一種即可
         // 「個別重新命名方法」
