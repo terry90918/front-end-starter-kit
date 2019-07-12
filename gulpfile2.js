@@ -20,7 +20,6 @@ const imagemin = require('gulp-imagemin');
 
 // 其它
 const plumber = require('gulp-plumber');
-const $ = require('gulp-load-plugins');
 const mainBowerFiles = require('main-bower-files');
 const order = require('gulp-order');
 const browserSync = require('browser-sync').create();
@@ -29,6 +28,7 @@ const gulpif = require('gulp-if');
 const clean = require('gulp-clean');
 const gulpSequence = require('gulp-sequence');
 
+// const $ = require('gulp-load-plugins');
 // const rename = require('gulp-rename'); // 重新命名檔案，依情況調整
 
 // 環境選項

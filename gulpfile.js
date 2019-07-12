@@ -179,10 +179,10 @@ gulp.task('watch', () => {
 });
 
 // 讓 `public` 檔案，可以快速發佈內容到 Github Pages
-gulp.task('deploy', () => {
-    return gulp.src('./public/**/*')
-        .pipe($.ghPages());
-});
+// gulp.task('deploy', () => {
+//     return gulp.src('./public/**/*')
+//         .pipe($.ghPages());
+// });
 
 gulp.task('sequence', $.sequence('clean', 'pug', 'sass', 'babel', 'vendorJS', 'image'));
 
