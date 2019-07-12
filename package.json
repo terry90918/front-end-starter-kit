@@ -1,6 +1,6 @@
 {
 	"name": "frontend-starter-kit",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "輕量化前端開發套件工具整合。",
 	"main": "index.js",
 	"scripts": {
