@@ -2,7 +2,7 @@
 
 前端開發樣板自動化套件整理。
 
-## 必須安裝列表
+## 必須安裝
 
 * [Node.js](https://nodejs.org/)
 * [Git](https://git-scm.com/)
