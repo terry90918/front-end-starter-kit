@@ -7,9 +7,9 @@
 * [Node.js](https://nodejs.org/)
 * [Git](https://git-scm.com/)
 
-## 使用步驟
+## 步驟
 
-開始來使用吧！
+開始囉！
 
 ### 安裝 Git
 
